@@ -1,51 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const MiApi = ({filteredData}) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const url = 'https://api.victorsanmartin.com/feriados/en.json'
-    fetch(url)
-      .then(response => response.json())
-      .then(apiData => {
-        setData(apiData.data); 
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-  }, []);
-
-  const sortedData = [...filteredData].sort((a, b) => new Date(a.date) - new Date(b.date));
-  const displayData = sortedData.length > 0 ? sortedData.reverse() : data;
-
-
-  console.log('el dato de Data:', data);
-  console.log('el resultado de Filter Data:', filteredData);
-  console.log('el resultado de Display Data:', displayData);
-
+function MiApi({ data }) {
   return (
     <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          <h2  className="feriado">Días feriados:</h2>
-          <ul className="list-group ">
-            {displayData.map((feriado, index) => (
-              <li key={index} className="list-group-item start ">
-                <strong>Fecha:</strong> {feriado.date}, <strong>Título:</strong>{' '}
-                {feriado.title}, <strong>Tipo:</strong> {feriado.type}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      
+      <table className="table table-transparent" >
+        <thead >
+          <tr className="start" >
+            <th  scope="col">Tipo</th>
+            <th  scope="col">Fecha</th>
+            <th  scope="col">Titulo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item, index) => (
+            <tr key={index}>
+              <td className="start">{item.type}</td>
+              <td >{item.date}</td>
+              <td className="start">{item.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
 
 export default MiApi;
 

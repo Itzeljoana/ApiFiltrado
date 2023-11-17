@@ -1,32 +1,26 @@
-// Buscador.jsx
-
 import React, { useState } from 'react';
 
-const Buscador = ({ data, onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('type');
+function Buscador({ onFilterChange }) {
+  const [filterType, setFilterType] = useState('Todos');
 
-  const handleSearch = () => {
-    const filteredData = data.filter(item => {
-      return item.type.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-
-    onSearch(filteredData);
+  const handleChange = (event) => {
+    setFilterType(event.target.value);
+    onFilterChange(event.target.value);
   };
 
   return (
-    <div>
-      <label>
-        <strong>Buscar por tipo:</strong>
-      </label>
-      <select onChange={e => setSearchTerm(e.target.value)}>
+    <div >
+      <h2 className="feriado">¡No los dejes pasar!</h2>
+      <label htmlFor="filter" className="margen">Filtrar:</label>
+      <select  className='select' id="filter" value={filterType} onChange={handleChange}>
+        <option value="Todos">Todos</option>
         <option value="Civil">Civil</option>
         <option value="Religioso">Religioso</option>
-      </select>
-      <button className='btn btn-primary btn-sm margenBotton' onClick={handleSearch}>Buscar</button>
+      </select>     
+       
     </div>
   );
-};
+}
 
 export default Buscador;
 
